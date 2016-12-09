@@ -7,21 +7,21 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
-type ServiceLocatorChaincode struct {
+type SimpleChaincode struct {
 }
 
 func main() {
-	err := shim.Start(new(ServiceLocatorChaincode))
+	err := shim.Start(new(SimpleChaincode))
 	if err != nil {
 		fmt.Printf("Error starting Service Locator Chaincode: %s", err)
 	}
 }
 
-func (t *ServiceLocatorChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	return nil, nil
 }
 
-func (t *ServiceLocatorChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("invoke is running " + function)
 
 	// Handle different functions
@@ -36,7 +36,7 @@ func (t *ServiceLocatorChaincode) Invoke(stub shim.ChaincodeStubInterface, funct
 }
 
 // Query is our entry point for queries
-func (t *ServiceLocatorChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("query is running " + function)
 
 	// Handle different functions
