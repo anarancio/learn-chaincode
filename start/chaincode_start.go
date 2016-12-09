@@ -61,7 +61,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 		return nil, nil;
 	} else if function == "test_query" {
 		fmt.Println("TEST QUERY");
-		return nil, nil;
+		return stub.GetState("devices"), nil;
 	}
 	fmt.Println("query did not find func: " + function)						//error
 
