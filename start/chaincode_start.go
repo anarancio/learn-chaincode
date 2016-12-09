@@ -53,6 +53,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	// Handle different functions
 	if function == "init" {													//initialize the chaincode state, used as reset
 		return t.Init(stub, "init", args)
+	} else if function == "test" {
+		return nil, errors.New("probando..")
 	}
 	fmt.Println("invoke did not find func: " + function)					//error
 
