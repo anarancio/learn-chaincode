@@ -28,11 +28,6 @@ import (
 type SimpleChaincode struct {
 }
 
-type Devices_List struct {
-	weatherOracles 	[]string `json:"weatherOracles"`
-	displayProviders []string `json:"displayProviders"`
-}
-
 // ============================================================================================================================
 // Main
 // ============================================================================================================================
@@ -55,18 +50,13 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	fmt.Println("oracles:")
 	fmt.Println(weatherOracles)
 
-	bytes1, err := json.Marshal(weatherOracles)
-	fmt.Println(bytes1)
-
-	var devicesList Devices_List
-	devicesList.weatherOracles = append(devicesList.weatherOracles, "test")
-	bytes, err := json.Marshal(devicesList)
-
-	if err != nil { return nil, errors.New("Error creating Devices_List record") }
+	bytes, err := json.Marshal(weatherOracles)
+	if err != nil { return nil, errors.New("Error creating weather oracles devices") }
+	fmt.Println(bytes)
 
 	fmt.Println("saving devices into the state")
 	fmt.Println(bytes)
-	stub.PutState("devices", bytes)
+	stub.PutState("weather_oracles_devices", bytes)
 
 	return nil, nil
 }
@@ -106,18 +96,15 @@ func (t *SimpleChaincode) add_oracle(stub shim.ChaincodeStubInterface, args []st
 		return nil, errors.New("Incorrect number of arguments. Expecting 2 (oracle type, oracle chaincode id)")
 	}
 
-	bytes, err := stub.GetState("devices")
-	if err != nil { return nil, errors.New("Error getting Devices_List record") }
-
-	var devicesList Devices_List
-	err = json.Unmarshal(bytes, &devicesList)
+	//bytes, err := stub.GetState("devices")
+	//if err != nil { return nil, errors.New("Error getting Devices_List record") }
 
 	return nil, nil
 }
 
 func (t *SimpleChaincode) get_devices(stub shim.ChaincodeStubInterface) ([]byte, error) {
 	fmt.Println("get_devices called")
-	bytes, err := stub.GetState("devices")
+	bytes, err := stub.GetState("weather_oracles_devices")
 	fmt.Println(bytes)
 
 	if err != nil { return nil, errors.New("Error getting Devices_List record") }
