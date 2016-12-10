@@ -59,7 +59,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	fmt.Println(bytes1)
 
 	var devicesList Devices_List
-	devicesList.weatherOracles = weatherOracles
+	devicesList.weatherOracles = append(devicesList.weatherOracles, "test")
 	bytes, err := json.Marshal(devicesList)
 
 	if err != nil { return nil, errors.New("Error creating Devices_List record") }
