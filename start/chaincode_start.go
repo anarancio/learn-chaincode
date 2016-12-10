@@ -29,7 +29,8 @@ type SimpleChaincode struct {
 }
 
 type Devices_List struct {
-	devices 	map[string][]string `json:"devices"`
+	weatherOracles 	[]string `json:"weatherOracles"`
+	displayProviders []string `json:"displayProviders"`
 }
 
 // ============================================================================================================================
@@ -49,10 +50,11 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
 
+	weatherOracles := []string{}
+	weatherOracles = append(weatherOracles, "test")
+
 	var devicesList Devices_List
-	devices := []string{}
-	devices = append(devices, "test")
-	devicesList.devices["1"] = devices
+	devicesList.weatherOracles = weatherOracles
 	bytes, err := json.Marshal(devicesList)
 
 	if err != nil { return nil, errors.New("Error creating Devices_List record") }
