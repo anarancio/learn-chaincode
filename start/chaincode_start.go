@@ -52,6 +52,8 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 
 	weatherOracles := []string{}
 	weatherOracles = append(weatherOracles, "test")
+	fmt.Println("oracles:")
+	fmt.Println(weatherOracles)
 
 	var devicesList Devices_List
 	devicesList.weatherOracles = weatherOracles
@@ -60,6 +62,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	if err != nil { return nil, errors.New("Error creating Devices_List record") }
 
 	fmt.Println("saving devices into the state")
+	fmt.Println(bytes)
 	stub.PutState("devices", bytes)
 
 	return nil, nil
