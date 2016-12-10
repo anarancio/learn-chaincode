@@ -55,6 +55,9 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	fmt.Println("oracles:")
 	fmt.Println(weatherOracles)
 
+	bytes1, err := json.Marshal(weatherOracles)
+	fmt.Println(bytes1)
+
 	var devicesList Devices_List
 	devicesList.weatherOracles = weatherOracles
 	bytes, err := json.Marshal(devicesList)
