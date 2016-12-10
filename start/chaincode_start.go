@@ -110,7 +110,9 @@ func (t *SimpleChaincode) add_oracle(stub shim.ChaincodeStubInterface, args []st
 }
 
 func (t *SimpleChaincode) get_devices(stub shim.ChaincodeStubInterface) ([]byte, error) {
+	fmt.Println("get_devices called")
 	bytes, err := stub.GetState("devices")
+	fmt.Println(bytes)
 
 	if err != nil { return nil, errors.New("Error getting Devices_List record") }
 
