@@ -27,6 +27,10 @@ import (
 type SimpleChaincode struct {
 }
 
+type Devices_List struct {
+	devices 	[]string `json:"devices"`
+}
+
 // ============================================================================================================================
 // Main
 // ============================================================================================================================
@@ -39,9 +43,18 @@ func main() {
 
 // Init resets all the things
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+	fmt.Println("init " + args[0])
 	if len(args) != 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
+
+	var devicesList Devices_List
+	bytes, err := json.Marshal(devicesList)
+
+	if err != nil { return nil, errors.New("Error creating Devices_List record") }
+
+	fmt.Println("saving devices into the state")
+	stub.PutState("devices", bytes)
 
 	return nil, nil
 }
