@@ -29,7 +29,7 @@ type SimpleChaincode struct {
 }
 
 type Devices_List struct {
-	devices 	[]string `json:"devices"`
+	devices 	map[string][]string `json:"devices"`
 }
 
 // ============================================================================================================================
@@ -50,6 +50,9 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	}
 
 	var devicesList Devices_List
+	devices := []string{}
+	devices = append(devices, "test")
+	devicesList.devices["1"] = devices
 	bytes, err := json.Marshal(devicesList)
 
 	if err != nil { return nil, errors.New("Error creating Devices_List record") }
@@ -87,6 +90,21 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	fmt.Println("query did not find func: " + function)						//error
 
 	return nil, errors.New("Received unknown function query: " + function)
+}
+
+func (t *SimpleChaincode) add_oracle(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	fmt.Println("add_oracle called")
+	if len(args) != 2 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 2 (oracle type, oracle chaincode id)")
+	}
+
+	bytes, err := stub.GetState("devices")
+	if err != nil { return nil, errors.New("Error getting Devices_List record") }
+
+	var devicesList Devices_List
+	err = json.Unmarshal(bytes, &devicesList)
+
+	return nil, nil
 }
 
 func (t *SimpleChaincode) get_devices(stub shim.ChaincodeStubInterface) ([]byte, error) {
