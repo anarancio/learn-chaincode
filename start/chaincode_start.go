@@ -68,6 +68,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	// Handle different functions
 	if function == "init" {													//initialize the chaincode state, used as reset
 		return t.Init(stub, "init", args)
+	} else if function == "add_weather_oracle" {
+		return t.add_weather_oracle(stub, args)
 	}
 	fmt.Println("invoke did not find func: " + function)					//error
 
@@ -90,14 +92,21 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	return nil, errors.New("Received unknown function query: " + function)
 }
 
-func (t *SimpleChaincode) add_oracle(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *SimpleChaincode) add_weather_oracle(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("add_oracle called")
-	if len(args) != 2 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 2 (oracle type, oracle chaincode id)")
+	if len(args) != 1 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
 
-	//bytes, err := stub.GetState("devices")
-	//if err != nil { return nil, errors.New("Error getting Devices_List record") }
+	bytes, err := stub.GetState("weather_oracles_devices")
+	if err != nil { return nil, errors.New("Error getting Devices_List record") }
+	var devices []string
+	err = json.Unmarshal(bytes, &devices)
+
+	devices = append(devices, args[0])
+	bytes, err = json.Marshal(devices)
+	if err != nil { return nil, errors.New("Error creating weather oracles devices") }
+	stub.PutState("weather_oracles_devices", bytes)
 
 	return nil, nil
 }
