@@ -20,7 +20,7 @@ import (
 	"errors"
 	"fmt"
 	"encoding/json"
-	
+
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
@@ -81,8 +81,18 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	if function == "dummy_query1" {											//read a variable
 		fmt.Println("hi there " + function)						//error
 		return nil, nil;
+	} else if function == "get_devices" {
+		return t.get_devices(stub)
 	}
 	fmt.Println("query did not find func: " + function)						//error
 
 	return nil, errors.New("Received unknown function query: " + function)
+}
+
+func (t *SimpleChaincode) get_devices(stub shim.ChaincodeStubInterface) ([]byte, error) {
+	bytes, err := stub.GetState("devices")
+
+	if err != nil { return nil, errors.New("Error getting Devices_List record") }
+
+	return bytes, nil
 }
