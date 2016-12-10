@@ -59,12 +59,17 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	if function == "dummy_query1" {											//read a variable
 		fmt.Println("hi there " + function)						//error
 		//return nil, nil;
-    return stub.GetState("devices");
-	} else if function == "test_query" {
-		fmt.Println("TEST QUERY");
-		return stub.GetState("devices");
+    t.read(stub, args)
 	}
 	fmt.Println("query did not find func: " + function)						//error
 
 	return nil, errors.New("Received unknown function query: " + function)
+}
+
+func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+  valAsbytes, err := stub.GetState("devices")
+  if err != nil {
+    return nil, errors.New("Failed to get state for devices")
+  }
+  return valAsbytes,nil
 }
