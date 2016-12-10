@@ -56,7 +56,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 	fmt.Println("query is running " + function)
 
 	// Handle different functions
-	if function == "dummy_query" {											//read a variable
+	if function == "dummy_query1" {											//read a variable
 		fmt.Println("hi there " + function)						//error
 		//return nil, nil;
     return stub.GetState("devices");
