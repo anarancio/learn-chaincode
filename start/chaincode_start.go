@@ -58,18 +58,8 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	fmt.Println(bytes)
 	stub.PutState("weather_oracles_devices", bytes)
 
-	fmt.Println("metadata")
-	bytes, err = stub.GetCallerMetadata()
-	fmt.Println(bytes)
-	bytes, err = stub.GetPayload()
-	fmt.Println(bytes)
-	var metadata []string
-	err = json.Unmarshal(bytes, &metadata)
-	fmt.Println(metadata)
-	bytes, err = stub.GetBinding()
-	fmt.Println(bytes)
-	err = json.Unmarshal(bytes, &metadata)
-	fmt.Println(metadata)
+	fmt.Println("TX ID:")
+	fmt.Println(stub.GetTxID())
 
 	return nil, nil
 }
