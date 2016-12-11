@@ -63,8 +63,13 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	fmt.Println(bytes)
 	bytes, err = stub.GetPayload()
 	fmt.Println(bytes)
+	var metadata []string
+	err = json.Unmarshal(bytes, &metadata)
+	fmt.Println(metadata)
 	bytes, err = stub.GetBinding()
 	fmt.Println(bytes)
+	err = json.Unmarshal(bytes, &metadata)
+	fmt.Println(metadata)
 
 	return nil, nil
 }
