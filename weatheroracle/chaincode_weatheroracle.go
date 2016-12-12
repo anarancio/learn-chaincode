@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+  "encoding/json"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
   "github.com/hyperledger/fabric/core/util"
@@ -31,6 +32,12 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
   f := "add_producer"
   invokeArgs := util.ToChaincodeArgs(f, stub.GetTxID(), "1", "Temperatura en Montevideo en Farenheit")
   stub.InvokeChaincode(args[0], invokeArgs)
+
+  listeners := []string{}
+  bytes, err := json.Marshal(listeners)
+	if err != nil { return nil, errors.New("Error creating listeners state") }
+
+	stub.PutState("oracle_listeners", bytes)
 
   return nil, nil
 }
