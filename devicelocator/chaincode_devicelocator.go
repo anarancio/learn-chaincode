@@ -70,7 +70,7 @@ func (t *SimpleChaincode) add_weather_oracle(stub shim.ChaincodeStubInterface, a
 	var devices []string
 	err = json.Unmarshal(bytes, &devices)
 
-	devices = append(devices, args[0])
+	devices = append(devices, args[0] + "," + args[1])
 	bytes, err = json.Marshal(devices)
 	if err != nil { return nil, errors.New("Error creating weather oracles devices") }
 	stub.PutState("weather_oracles_devices", bytes)

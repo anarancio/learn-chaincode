@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
+  "github.com/hyperledger/fabric/core/util"
 )
 
 type SimpleChaincode struct {
@@ -19,9 +20,17 @@ func main() {
 
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
   if len(args) != 1 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 1")
+		return nil, errors.New("Incorrect number of arguments. Expecting 1 (devicelocator uuid)")
 	}
-  fmt.Println("init using service provider: " + args[0])
+  fmt.Println("init using device locator: " + args[0])
+
+  params := []string{}
+  params = append(params, stub.GetTxID())
+  params = append(params, "")
+
+  f := "invoke"
+  invokeArgs := util.ToChaincodeArgs(f, stub.GetTxID(), "Temperatura en Montevideo en F")
+  stub.InvokeChaincode(args[0], invokeArgs)
 
   return nil, nil
 }
