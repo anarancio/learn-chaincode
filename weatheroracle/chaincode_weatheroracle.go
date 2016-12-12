@@ -104,8 +104,20 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
   fmt.Println("query is running " + function)
   if function == "get_temperature" {
     return t.get_temperature(stub)
+  } else if function == "get_listeners" {
+    return t.get_listeners(stub)
   }
   return nil, errors.New("Received unknown function query: " + function)
+}
+
+func (t *SimpleChaincode) get_listeners(stub shim.ChaincodeStubInterface) ([]byte, error) {
+  fmt.Println("get_listeners called")
+	bytes, err := stub.GetState("oracle_listeners")
+	fmt.Println(bytes)
+
+	if err != nil { return nil, errors.New("Error getting temperature record") }
+
+	return bytes, nil
 }
 
 func (t *SimpleChaincode) get_temperature(stub shim.ChaincodeStubInterface) ([]byte, error) {
