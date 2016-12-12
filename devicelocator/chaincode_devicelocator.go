@@ -53,8 +53,8 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 
 func (t *SimpleChaincode) add_producer(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	fmt.Println("add_producer called")
-	if len(args) != 2 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 2 (UUID, name)")
+	if len(args) != 3 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 3 (UUID, type, description)")
 	}
 
 	bytes, err := stub.GetState("producers_devices")
@@ -73,7 +73,7 @@ func (t *SimpleChaincode) add_producer(stub shim.ChaincodeStubInterface, args []
 
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
   fmt.Println("query is running " + function)
-  if function == "get_oracle_weather_devices" {
+  if function == "get_producers" {
    return t.get_producers_devices(stub)
   }
   return nil, errors.New("Received unknown function query: " + function)
