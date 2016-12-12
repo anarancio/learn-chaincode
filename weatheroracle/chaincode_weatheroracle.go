@@ -28,8 +28,8 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
   params = append(params, stub.GetTxID())
   params = append(params, "")
 
-  f := "add_weather_oracle"
-  invokeArgs := util.ToChaincodeArgs(f, stub.GetTxID(), "Temperatura en Montevideo en F")
+  f := "add_producer"
+  invokeArgs := util.ToChaincodeArgs(f, stub.GetTxID(), "1", "Temperatura en Montevideo en Farenheit")
   stub.InvokeChaincode(args[0], invokeArgs)
 
   return nil, nil
