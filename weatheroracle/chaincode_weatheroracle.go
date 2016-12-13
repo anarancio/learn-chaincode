@@ -25,10 +25,6 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	}
   fmt.Println("init using device locator: " + args[0])
 
-  params := []string{}
-  params = append(params, stub.GetTxID())
-  params = append(params, "")
-
   f := "add_producer"
   invokeArgs := util.ToChaincodeArgs(f, stub.GetTxID(), "1", "Temperatura en Montevideo en Farenheit")
   stub.InvokeChaincode(args[0], invokeArgs)
