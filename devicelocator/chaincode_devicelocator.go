@@ -90,7 +90,7 @@ func (t *SimpleChaincode) add_producer(stub shim.ChaincodeStubInterface, args []
 	err = json.Unmarshal(bytes, &devices)
 
   // create the record for the produce: <UUID>,<type>,<description
-	devices = append(devices, args[0] + "," + args[1] + "," + args[2])
+	devices = append(devices, args[0] + "#" + args[1] + "#" + args[2])
 	bytes, err = json.Marshal(devices)
 	if err != nil { return nil, errors.New("Error creating weather oracles devices") }
 	stub.PutState("producers_devices", bytes)
