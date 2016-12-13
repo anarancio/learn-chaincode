@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
+  "github.com/hyperledger/fabric/core/util"
 )
 
 type SimpleChaincode struct {
@@ -23,6 +24,10 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	}
   fmt.Println("init using device locator: " + args[0])
 
+  f := "add_consumer"
+  invokeArgs := util.ToChaincodeArgs(f, stub.GetTxID(), "Display device")
+  stub.InvokeChaincode(args[0], invokeArgs)
+
   return nil, nil
 }
 
@@ -34,6 +39,6 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 
 func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
   fmt.Println("query is running " + function)
-  
+
   return nil, errors.New("Received unknown function query: " + function)
 }
