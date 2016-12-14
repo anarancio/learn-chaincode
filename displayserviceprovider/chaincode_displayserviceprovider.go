@@ -25,7 +25,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
   fmt.Println("init using device locator: " + args[0])
 
   f := "add_consumer"
-  invokeArgs := util.ToChaincodeArgs(f, stub.GetTxID(), "Display device")
+  invokeArgs := util.ToChaincodeArgs(f, stub.GetTxID(), "LCD Display device")
   stub.InvokeChaincode(args[0], invokeArgs)
 
   return nil, nil

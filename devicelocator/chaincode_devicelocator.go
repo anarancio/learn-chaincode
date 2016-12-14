@@ -70,7 +70,7 @@ func (t *SimpleChaincode) add_consumer(stub shim.ChaincodeStubInterface, args []
 	err = json.Unmarshal(bytes, &devices)
 
   // create the record for the consumer <UUID>,<description
-	devices = append(devices, args[0] + "," + args[1])
+	devices = append(devices, args[0] + "#" + args[1])
 	bytes, err = json.Marshal(devices)
 	if err != nil { return nil, errors.New("Error creating consumers devices") }
 	stub.PutState("consumers_devices", bytes)
